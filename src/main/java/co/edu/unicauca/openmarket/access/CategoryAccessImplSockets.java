@@ -6,10 +6,11 @@
 package co.edu.unicauca.openmarket.access;
 
 import co.unicauca.openmarket.commons.infra.Protocol;
-import co.unicauca.openmarket.commons.domain.Category;
 import co.unicauca.openmarket.commons.infra.JsonError;
 import co.edu.unicauca.openmarket.infra.OpenMarketSocket;
+import co.unicauca.openmarket.commons.domain.Category;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,27 +41,29 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
             mySocket.disconnect();
 
         } catch (IOException ex) {
-            Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
         }
         if (jsonResponse == null) {
             try {
                 throw new Exception("No se pudo conectar con el servidor");
             } catch (Exception ex) {
-                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
 
             if (jsonResponse.contains("error")) {
-                //Devolvió algún error                
-                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 try {
                     throw new Exception(extractMessages(jsonResponse));
                 } catch (Exception ex) {
-                    Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                //Agregó correctamente, devuelve true
-                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                // Agregó correctamente, devuelve true
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
                 return true;
             }
         }
@@ -69,27 +72,209 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
 
     @Override
     public boolean edit(Long id, Category category) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String jsonResponse = null;
+        String requestJson = doEditCategoryRequestJson(id.toString(), category);
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            try {
+                throw new Exception(
+                        "No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // edito correctamente, devuelve true
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String jsonResponse = null;
+        String requestJson = doDeleteCategoryRequestJson(id.toString());
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            try {
+                throw new Exception(
+                        "No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // borro correctamente, devuelve true
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Category findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String jsonResponse = null;
+        String requestJson = doFindByIdCategoryRequestJson(id.toString());
+        System.out.println(requestJson);
+
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
+        }
+
+        if (jsonResponse == null) {
+            try {
+                throw new Exception(
+                        "No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // Encontró el producto
+                Category category = jsonToCategory(jsonResponse);
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return category;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Category> findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String jsonResponse = null;
+        String requestJson = doFindByNameCategoryRequestJson(name);
+        System.out.println(requestJson);
+
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
+        }
+
+        if (jsonResponse == null) {
+            try {
+                throw new Exception(
+                        "No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // Encontró el producto
+                List<Category> categorys = jsonToCategoryList(jsonResponse);
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return categorys;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Category> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String jsonResponse = null;
+        String requestJson = doFindAllRequestJson();
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE,
+                    "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            try {
+                throw new Exception(
+                        "No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                // Devolvió algún error
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // Encontró el customer
+                List<Category> categorys = jsonToCategoryList(jsonResponse);
+                Logger.getLogger(CategoryAccessImplSockets.class.getName()).log(Level.INFO,
+                        "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return categorys;
+            }
+        }
+        return null;
     }
 
     /**
@@ -205,6 +390,14 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
         Category category = gson.fromJson(jsonCategory, Category.class);
         return category;
 
+    }
+
+    private List<Category> jsonToCategoryList(String jsonCategoryList) {
+        Gson gson = new Gson();
+        java.lang.reflect.Type productListType = new TypeToken<List<Category>>() {
+        }.getType();
+        List<Category> productList = gson.fromJson(jsonCategoryList, productListType);
+        return productList;
     }
 
 }
