@@ -31,12 +31,44 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
     }
 
     @Override
-    public boolean save(Category object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean save(Category category) {
+        String jsonResponse = null;
+        String requestJson = doSaveCategoryRequestJson(category);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            try {
+                throw new Exception("No se pudo conectar con el servidor");
+            } catch (Exception ex) {
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                //Agregó correctamente, devuelve true
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public boolean edit(Long id, Category object) {
+    public boolean edit(Long id, Category category) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -87,15 +119,44 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
         return error;
     }
 
-    /**
-     * Crea una solicitud json para ser enviada por el socket
-     *
-     *
-     * @param idCategory identificación del cliente
-     * @return solicitud de consulta del cliente en formato Json, algo como:
-     * {"resource":"category","action":"get","parameters":[{"name":"id","value":"98000001"}]}
-     */
-    private String doFindCategoryRequestJson(String idCategory) {
+    private String doSaveCategoryRequestJson(Category category) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("post");
+        protocol.addParameter("name", category.getName());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    private String doEditCategoryRequestJson(String idCategory, Category category) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("update");
+        protocol.addParameter("idCategory", idCategory);
+        protocol.addParameter("name", category.getName());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    private String doDeleteCategoryRequestJson(String idCategory) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("delete");
+        protocol.addParameter("id", idCategory);
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    private String doFindByIdCategoryRequestJson(String idCategory) {
 
         Protocol protocol = new Protocol();
         protocol.setResource("category");
@@ -108,24 +169,27 @@ public class CategoryAccessImplSockets implements ICategoryRepository {
         return requestJson;
     }
 
-    /**
-     * Crea la solicitud json de creación del category para ser enviado por el
-     * socket
-     *
-     * @param category objeto category
-     * @return devulve algo como:
-     * {"resource":"category","action":"post","parameters":[{"name":"id","value":"980000012"},{"name":"fistName","value":"Juan"},...}]}
-     */
-    private String doCreateCategoryRequestJson(Category category) {
+    private String doFindByNameCategoryRequestJson(String nameCategory) {
 
         Protocol protocol = new Protocol();
         protocol.setResource("category");
-        protocol.setAction("post");
-        protocol.addParameter("id", category.getCategoryId().toString());
-        protocol.addParameter("name", category.getName());
+        protocol.setAction("findName");
+        protocol.addParameter("name", nameCategory);
 
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    private String doFindAllRequestJson() {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("findAll");
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+
         return requestJson;
     }
 
