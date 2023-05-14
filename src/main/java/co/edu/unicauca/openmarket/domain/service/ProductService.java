@@ -11,18 +11,21 @@ import java.util.List;
  */
 public class ProductService {
 
-    // Ahora hay una dependencia de una abstracción, no es algo concreto,
-    // no sabe cómo está implementado.
-    private IProductRepository repository;
+    /**
+     * Constructor privado que evita que otros objetos instancien
+     *
+     * @param service implementacion de tipo IProductRepository
+     */
+    private final IProductRepository access;
 
     /**
      * Inyección de dependencias en el constructor. Ya no conviene que el mismo
      * servicio cree un repositorio concreto
      *
-     * @param repository una clase hija de IProductRepository
+     * @param access una clase hija de IProductRepository
      */
-    public ProductService(IProductRepository repository) {
-        this.repository = repository;
+    public ProductService(IProductRepository access) {
+        this.access = access;
     }
 
     public boolean saveProduct(String name, String description) {
@@ -36,29 +39,29 @@ public class ProductService {
             return false;
         }
 
-        return repository.save(newProduct);
+        return access.save(newProduct);
 
     }
 
     public List<Product> findAllProducts() {
         List<Product> products = new ArrayList<>();
-        products = repository.findAll();
+        products = access.findAll();
 
         return products;
     }
 
     public List<Product> findByName(String name) {
         List<Product> products = new ArrayList<>();
-        products = repository.findByName(name);
+        products = access.findByName(name);
         return products;
     }
 
     public Product findProductById(Long id) {
-        return repository.findById(id);
+        return access.findById(id);
     }
 
     public boolean deleteProduct(Long id) {
-        return repository.delete(id);
+        return access.delete(id);
     }
 
     public boolean editProduct(Long productId, Product prod) {
@@ -67,7 +70,7 @@ public class ProductService {
         if (prod == null || prod.getName().isEmpty()) {
             return false;
         }
-        return repository.edit(productId, prod);
+        return access.edit(productId, prod);
     }
 
 }

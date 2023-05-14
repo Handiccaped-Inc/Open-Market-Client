@@ -1,4 +1,4 @@
-package co.unicauca.openmarket.infra;
+package co.edu.unicauca.openmarket.infra;
 
 import co.unicauca.openmarket.commons.infra.Utilities;
 import java.io.IOException;

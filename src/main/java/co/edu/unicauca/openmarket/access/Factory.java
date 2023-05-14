@@ -39,7 +39,7 @@ public class Factory {
 
         switch (type) {
             case "default":
-                result = new ProductRepository();
+                result = new ProductAccessImplSockets();
                 break;
         }
 
@@ -53,7 +53,7 @@ public class Factory {
 
         switch (type) {
             case "default":
-                result = new CategoryRepository();
+                result = new CategoryAccessImplSockets();
                 break;
         }
 

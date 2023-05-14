@@ -1,5 +1,6 @@
 co\edu\unicauca\openmarket\access\Factory.class
 co\edu\unicauca\openmarket\access\ICategoryRepository.class
+co\edu\unicauca\openmarket\infra\OpenMarketSocket.class
 co\edu\unicauca\openmarket\main\Main.class
 co\edu\unicauca\openmarket\presentation\GUI$6.class
 co\edu\unicauca\openmarket\infra\Security.class
@@ -7,7 +8,7 @@ co\edu\unicauca\openmarket\presentation\GUI$4.class
 co\edu\unicauca\openmarket\presentation\GUI$1.class
 co\edu\unicauca\openmarket\access\IProductRepository.class
 co\edu\unicauca\openmarket\domain\service\CategoryService.class
-co\edu\unicauca\openmarket\access\ProductRepository.class
+co\edu\unicauca\openmarket\access\ProductAccessImplSockets.class
 co\edu\unicauca\openmarket\presentation\GUI$5.class
 co\edu\unicauca\openmarket\presentation\ui\MyButton.class
 co\edu\unicauca\openmarket\domain\User.class
@@ -15,8 +16,7 @@ co\edu\unicauca\openmarket\presentation\GUI$2.class
 co\edu\unicauca\openmarket\domain\service\ProductService.class
 co\edu\unicauca\openmarket\presentation\GUI$8.class
 co\edu\unicauca\openmarket\access\IRepository.class
-co\unicauca\openmarket\infra\OpenMarketSocket.class
-co\edu\unicauca\openmarket\access\CategoryRepository.class
+co\edu\unicauca\openmarket\access\CategoryAccessImplSockets.class
 co\edu\unicauca\openmarket\infra\Messages.class
 co\edu\unicauca\openmarket\presentation\GUI$3.class
 co\edu\unicauca\openmarket\presentation\ui\MyButton$1.class

@@ -1,11 +1,11 @@
-C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\CategoryRepository.java
-C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\ProductRepository.java
+C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\CategoryAccessImplSockets.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\IProductRepository.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\Factory.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\infra\OpenMarketSocket.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\IRepository.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\infra\Messages.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\ICategoryRepository.java
+C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\access\ProductAccessImplSockets.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\presentation\ui\MyButton.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\domain\User.java
 C:\Users\restr\OneDrive\Escritorio\Programacion\sfii\Open-Market-Client\src\main\java\co\edu\unicauca\openmarket\domain\service\ProductService.java

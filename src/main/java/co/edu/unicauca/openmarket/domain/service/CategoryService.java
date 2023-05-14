@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class CategoryService {
 
-    private ICategoryRepository repository;
+    private final ICategoryRepository access;
 
-    public CategoryService(ICategoryRepository repository) {
-        this.repository = repository;
+    public CategoryService(ICategoryRepository access) {
+        this.access = access;
     }
 
     public boolean saveCategory(String name) {
@@ -31,23 +31,23 @@ public class CategoryService {
             return false;
         }
 
-        return repository.save(newCategory);
+        return access.save(newCategory);
 
     }
 
     public List<Category> findAllCategory() {
         List<Category> category = new ArrayList<>();
-        category = repository.findAll();
+        category = access.findAll();
 
         return category;
     }
 
     public Category findCategoryById(Long id) {
-        return repository.findById(id);
+        return access.findById(id);
     }
 
     public boolean deleteCategory(Long id) {
-        return repository.delete(id);
+        return access.delete(id);
     }
 
     public boolean editCategory(Long categoryId, Category category) {
@@ -56,12 +56,12 @@ public class CategoryService {
         if (category == null || category.getName().isEmpty()) {
             return false;
         }
-        return repository.edit(categoryId, category);
+        return access.edit(categoryId, category);
     }
 
     public List<Category> findCategoryByName(String name) {
         List<Category> category = new ArrayList<>();
-        category = repository.findByName(name);
+        category = access.findByName(name);
 
         return category;
     }

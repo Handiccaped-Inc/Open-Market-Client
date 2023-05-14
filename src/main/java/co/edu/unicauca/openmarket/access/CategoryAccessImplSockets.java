@@ -1,0 +1,146 @@
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package co.edu.unicauca.openmarket.access;
+
+import co.unicauca.openmarket.commons.infra.Protocol;
+import co.unicauca.openmarket.commons.domain.Category;
+import co.unicauca.openmarket.commons.infra.JsonError;
+import co.edu.unicauca.openmarket.infra.OpenMarketSocket;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.List;
+
+/**
+ *
+ * @author INGESIS
+ */
+public class CategoryAccessImplSockets implements ICategoryRepository {
+
+    /**
+     * El servicio utiliza un socket para comunicarse con la aplicación server
+     */
+    private OpenMarketSocket mySocket;
+
+    public CategoryAccessImplSockets() {
+        mySocket = new OpenMarketSocket();
+    }
+
+    @Override
+    public boolean save(Category object) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean edit(Long id, Category object) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Category findById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Category> findByName(String name) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Category> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    /**
+     * Extra los mensajes de la lista de errores
+     *
+     * @param jsonResponse lista de mensajes json
+     * @return Mensajes de error
+     */
+    private String extractMessages(String jsonResponse) {
+        JsonError[] errors = jsonToErrors(jsonResponse);
+        String msjs = "";
+        for (JsonError error : errors) {
+            msjs += error.getMessage();
+        }
+        return msjs;
+    }
+
+    /**
+     * Convierte el jsonError a un array de objetos jsonError
+     *
+     * @param jsonError
+     * @return objeto MyError
+     */
+    private JsonError[] jsonToErrors(String jsonError) {
+        Gson gson = new Gson();
+        JsonError[] error = gson.fromJson(jsonError, JsonError[].class);
+        return error;
+    }
+
+    /**
+     * Crea una solicitud json para ser enviada por el socket
+     *
+     *
+     * @param idCategory identificación del cliente
+     * @return solicitud de consulta del cliente en formato Json, algo como:
+     * {"resource":"category","action":"get","parameters":[{"name":"id","value":"98000001"}]}
+     */
+    private String doFindCategoryRequestJson(String idCategory) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("get");
+        protocol.addParameter("id", idCategory);
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+
+        return requestJson;
+    }
+
+    /**
+     * Crea la solicitud json de creación del category para ser enviado por el
+     * socket
+     *
+     * @param category objeto category
+     * @return devulve algo como:
+     * {"resource":"category","action":"post","parameters":[{"name":"id","value":"980000012"},{"name":"fistName","value":"Juan"},...}]}
+     */
+    private String doCreateCategoryRequestJson(Category category) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("category");
+        protocol.setAction("post");
+        protocol.addParameter("id", category.getCategoryId().toString());
+        protocol.addParameter("name", category.getName());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    /**
+     * Convierte jsonCategory, proveniente del server socket, de json a un
+     * objeto Category
+     *
+     * @param jsonCategory objeto cliente en formato json
+     */
+    private Category jsonToCategory(String jsonCategory) {
+
+        Gson gson = new Gson();
+        Category category = gson.fromJson(jsonCategory, Category.class);
+        return category;
+
+    }
+
+}
