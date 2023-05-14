@@ -256,6 +256,44 @@ public class ProductAccessImplSockets implements IProductRepository {
         }
         return null;
     }
+    
+    @Override
+    public List<Product> findByCategoryID(Long id) {
+        String jsonResponse = null;
+        String requestJson = doFindByCategoryIDRequestJson(id.toString());
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            try {
+                throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+            } catch (Exception ex) {
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                try {
+                    throw new Exception(extractMessages(jsonResponse));
+                } catch (Exception ex) {
+                    Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                //Encontró el customer
+                List<Product> products = jsonToProductList(jsonResponse);
+                Logger.getLogger(ProductAccessImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return products;
+            }
+        }
+        return null;
+    }
 
     /**
      * Extra los mensajes de la lista de errores
@@ -380,6 +418,19 @@ public class ProductAccessImplSockets implements IProductRepository {
         return requestJson;
     }
 
+    private String doFindByCategoryIDRequestJson(String idCategory) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("product");
+        protocol.setAction("findCategory");
+        protocol.addParameter("idCategory", idCategory);
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+
+        return requestJson;
+    }
+    
     /**
      * Convierte jsonProduct, proveniente del server socket, de json a un objeto
      * Product

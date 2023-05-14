@@ -72,5 +72,9 @@ public class ProductService {
         }
         return access.edit(productId, prod);
     }
-
+    
+    public List<Product> findProductByCategory(Long id) {
+        return access.findByCategoryID(id);
+    }
+    
 }

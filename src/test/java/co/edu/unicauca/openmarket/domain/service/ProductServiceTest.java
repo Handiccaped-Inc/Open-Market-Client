@@ -164,5 +164,10 @@ public class ProductServiceTest {
             throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
                                                                            // choose Tools | Templates.
         }
+
+        @Override
+        public List<Product> findByCategoryID(Long id) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 }
