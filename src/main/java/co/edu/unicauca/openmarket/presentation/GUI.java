@@ -44,7 +44,7 @@ public class GUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -167,31 +167,27 @@ public class GUI extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
         jPanelTop.setLayout(jPanelTopLayout);
         jPanelTopLayout.setHorizontalGroup(
-                jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopLayout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(lblTitle)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260,
-                                        Short.MAX_VALUE)
-                                .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 96,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 96,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)));
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(lblTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
+                .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
         jPanelTopLayout.setVerticalGroup(
-                jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanelTopLayout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(lblTitle))
-                                .addGap(10, 10, 10)));
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTitle))
+                .addGap(10, 10, 10))
+        );
 
         jPanelPrincipal.add(jPanelTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
@@ -256,15 +252,16 @@ public class GUI extends javax.swing.JFrame {
         });
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jScrollPane1.setViewportView(tblProducts);
 
         jPanelProduct.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 840, 250));
@@ -408,15 +405,16 @@ public class GUI extends javax.swing.JFrame {
         jPanelCategory.add(lblTitle12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, -1));
 
         tblCategory.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jScrollPane2.setViewportView(tblCategory);
 
         jPanelCategory.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 840, 250));
@@ -534,7 +532,7 @@ public class GUI extends javax.swing.JFrame {
         jPanelEditDelete.add(txtNamePE, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 240, 30));
 
         lblTitle19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTitle19.setText("Categoria:");
+        lblTitle19.setText("Id Categoria:");
         jPanelEditDelete.add(lblTitle19, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         txtCategoriaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
@@ -569,7 +567,6 @@ public class GUI extends javax.swing.JFrame {
         btnDelete.setBorder(null);
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Borrar");
-        btnDelete.setActionCommand("Borrar");
         btnDelete.setBorderColor(new java.awt.Color(251, 106, 0));
         btnDelete.setBorderPainted(false);
         btnDelete.setColor(new java.awt.Color(251, 106, 0));
@@ -793,7 +790,7 @@ public class GUI extends javax.swing.JFrame {
         lblID.setText(lista.get(0).getProductId().toString());
         txtNamePE.setText(lista.get(0).getName());
         txtDescriptionPE.setText(lista.get(0).getDescription());
-        txtCategoriaE.setText(lista.get(0).getCategory().getName());
+        txtCategoriaE.setText(lista.get(0).getCategory().getCategoryId().toString());
 
     }// GEN-LAST:event_btnSearch4ActionPerformed
 
@@ -821,8 +818,7 @@ public class GUI extends javax.swing.JFrame {
             rowData[1] = listProducts.get(i).getName();
             rowData[2] = listProducts.get(i).getDescription();
             rowData[3] = listProducts.get(i).getPrice();
-            // rowData[4] = listProducts.get(i).getCategory().getName();
-            rowData[4] = listProducts.get(i).getCategory();
+            rowData[4] = listProducts.get(i).getCategory().getName();
 
             model.addRow(rowData);
         }
