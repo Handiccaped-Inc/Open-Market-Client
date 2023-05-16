@@ -339,6 +339,7 @@ public class ProductAccessImplSockets implements IProductRepository {
         protocol.addParameter("name", product.getName());
         protocol.addParameter("description", product.getDescription());
         protocol.addParameter("price", String.valueOf(product.getPrice()));
+        protocol.addParameter("idcategory", String.valueOf(product.getCategory().getCategoryId()));
 
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);

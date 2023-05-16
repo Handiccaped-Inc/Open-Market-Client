@@ -571,8 +571,8 @@ public class GUI extends javax.swing.JFrame {
             rowData[1] = listProducts.get(i).getName();
             rowData[2] = listProducts.get(i).getDescription();
             rowData[3] = listProducts.get(i).getPrice();
-            //rowData[4] = listProducts.get(i).getCategory().getName();
-            rowData[4] = listProducts.get(i).getCategory();
+            rowData[4] = listProducts.get(i).getCategory().getName();
+            //rowData[4] = listProducts.get(i).getCategory();
             rowData[5] = new JButton("Editar");
             rowData[6] = new JButton("Eliminar");
 
