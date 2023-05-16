@@ -23,7 +23,6 @@ public class OMInvoker {
 
     public void addCommand(OMCommand actualCommand) {
         currentCommand = actualCommand;
-
     }
 
     public void execute() {

@@ -24,6 +24,8 @@ public class Main {
 
         GUI instance = new GUI(productService, categoryService);
         instance.setVisible(true);
+        
+        productService.addObservador(instance);
 
     }
 

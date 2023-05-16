@@ -9,6 +9,9 @@ import co.unicauca.openmarket.commons.domain.Product;
 import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.domain.service.ProductService;
 import co.edu.unicauca.openmarket.infra.Messages;
+import co.edu.unicauca.openmarket.presentation.commands.OMAddProductCommand;
+import co.edu.unicauca.openmarket.presentation.commands.OMInvoker;
+import framework.obsobs.Observador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -19,10 +22,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author restr
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame implements Observador {
 
     private ProductService productService;
     private CategoryService categoryService;
+    private OMInvoker ominvoker;
 
     /**
      * Creates new form GUI
@@ -31,10 +35,12 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         this.productService = productService;
         this.categoryService = categoryService;
+        ominvoker = new OMInvoker();
         initializeTableP();
         initializeTableC();
         btnDelete.setVisible(false);
         btnEdit.setVisible(false);
+        btnDeshacer.setVisible(ominvoker.hasMoreCommands());
     }
 
     /**
@@ -78,6 +84,7 @@ public class GUI extends javax.swing.JFrame {
         lblTitle14 = new javax.swing.JLabel();
         txtCategoria = new javax.swing.JTextField();
         btnEditDelete = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        btnDeshacer = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         jPanelCategory = new javax.swing.JPanel();
         lblTitle8 = new javax.swing.JLabel();
         txtIdC = new javax.swing.JTextField();
@@ -245,12 +252,6 @@ public class GUI extends javax.swing.JFrame {
         });
         jPanelProduct.add(btnSearchAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 180, 96, 40));
 
-        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jScrollPane1MouseClicked(evt);
-            }
-        });
-
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -359,6 +360,25 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, 110, 40));
+
+        btnDeshacer.setBackground(new java.awt.Color(251, 106, 0));
+        btnDeshacer.setBorder(null);
+        btnDeshacer.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeshacer.setText("Deshacer");
+        btnDeshacer.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnDeshacer.setBorderPainted(false);
+        btnDeshacer.setColor(new java.awt.Color(251, 106, 0));
+        btnDeshacer.setColorClick(new java.awt.Color(251, 186, 0));
+        btnDeshacer.setColorOver(new java.awt.Color(251, 156, 0));
+        btnDeshacer.setFocusable(false);
+        btnDeshacer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDeshacer.setRadius(40);
+        btnDeshacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeshacerActionPerformed(evt);
+            }
+        });
+        jPanelProduct.add(btnDeshacer, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 90, 40));
 
         jTabbedPane2.addTab("tab1", jPanelProduct);
 
@@ -602,19 +622,25 @@ public class GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnProductActionPerformed
+    private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
+        ominvoker.unexecute();
+        if (!ominvoker.hasMoreCommands())
+            this.btnDeshacer.setVisible(false);
+    }//GEN-LAST:event_btnDeshacerActionPerformed
+
+    private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {
         jTabbedPane2.setSelectedIndex(0);
-    }// GEN-LAST:event_btnProductActionPerformed
+    }
 
-    private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCategoryActionPerformed
+    private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {
         jTabbedPane2.setSelectedIndex(1);
-    }// GEN-LAST:event_btnCategoryActionPerformed
+    }
 
-    private void btnSearchAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchAllActionPerformed
+    private void btnSearchAllActionPerformed(java.awt.event.ActionEvent evt) {
         fillTableP(productService.findAllProducts());
-    }// GEN-LAST:event_btnSearchAllActionPerformed
+    }
 
-    private void btnCreateCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCreateCategoryActionPerformed
+    private void btnCreateCategoryActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtNameC.getText().trim())) {
             Messages.showMessageDialog("Hay espacios vacios", "Atención");
             return;
@@ -627,9 +653,9 @@ public class GUI extends javax.swing.JFrame {
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
         }
-    }// GEN-LAST:event_btnCreateCategoryActionPerformed
+    }
 
-    private void btnCreateProduct1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCreateProduct1ActionPerformed
+    private void btnCreateProduct1ActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtNameP.getText().trim())) {
             Messages.showMessageDialog("Hay espacios vacios", "Atención");
             return;
@@ -648,13 +674,21 @@ public class GUI extends javax.swing.JFrame {
         } else {
             Messages.showMessageDialog("Debe ingresar un dato numerico", "Atención");
         }
-
-        if (productService.saveProduct(name, description, categoria)) {
-            Messages.showMessageDialog("Se grabó con éxito el producto", "Atención");
+        
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(description);
+        product.setCategory(categoria);
+        OMAddProductCommand comm = new OMAddProductCommand(product, productService);
+        ominvoker.addCommand(comm);
+        ominvoker.execute();
+        if (comm.result()) {
+            Messages.showMessageDialog("Se grabó con éxito", "Atención");
+            btnDeshacer.setVisible(ominvoker.hasMoreCommands());
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
         }
-    }// GEN-LAST:event_btnCreateProduct1ActionPerformed
+    }
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchActionPerformed
         if (emptySpaces(txtSearchP.getText().trim())) {
@@ -680,9 +714,9 @@ public class GUI extends javax.swing.JFrame {
                     .findProductByCategory(Long.parseLong(this.txtSearchP.getText()));
             fillTableP(lista);
         }
-    }// GEN-LAST:event_btnSearchActionPerformed
+    }
 
-    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearch1ActionPerformed
+    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtSearchC.getText().trim())) {
             Messages.showMessageDialog("Debe ingresar el id/nombre de la categoria", "Atención");
             txtSearchC.requestFocus();
@@ -702,30 +736,17 @@ public class GUI extends javax.swing.JFrame {
             lista = (ArrayList) categoryService.findCategoryByName(this.txtSearchC.getText());
             fillTableC(lista);
         }
-    }// GEN-LAST:event_btnSearch1ActionPerformed
+    }
 
-    private void btnSearchAll1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchAll1ActionPerformed
+    private void btnSearchAll1ActionPerformed(java.awt.event.ActionEvent evt) {
         fillTableC(categoryService.findAllCategory());
-    }// GEN-LAST:event_btnSearchAll1ActionPerformed
+    }
 
-    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jScrollPane1MouseClicked
-        int columna = tblProducts.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / tblProducts.getRowHeight();
-        if (row < tblProducts.getRowCount() && row >= 0 && columna < tblProducts.getColumnCount() && columna >= 0) {
-            Object value = tblProducts.getValueAt(row, columna);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                JButton boton = (JButton) value;
-                JOptionPane.showMessageDialog(null, "Has pulsado un boton");
-            }
-        }
-    }// GEN-LAST:event_jScrollPane1MouseClicked
-
-    private void btnEditDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditDeleteActionPerformed
+    private void btnEditDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         jTabbedPane2.setSelectedIndex(2);
-    }// GEN-LAST:event_btnEditDeleteActionPerformed
+    }
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtNamePE.getText().trim())) {
             Messages.showMessageDialog("Hay espacios vacios", "Atención");
             return;
@@ -753,9 +774,9 @@ public class GUI extends javax.swing.JFrame {
         } else {
             Messages.showMessageDialog("Error al editar, lo siento mucho", "Atención");
         }
-    }// GEN-LAST:event_btnEditActionPerformed
+    }
 
-    private void btnSearch4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearch4ActionPerformed
+    private void btnSearch4ActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtIdPEB.getText().trim())) {
             Messages.showMessageDialog("Debe ingresar el id/nombre del producto a buscar", "Atención");
             txtSearchP.requestFocus();
@@ -792,15 +813,15 @@ public class GUI extends javax.swing.JFrame {
         txtDescriptionPE.setText(lista.get(0).getDescription());
         txtCategoriaE.setText(lista.get(0).getCategory().getCategoryId().toString());
 
-    }// GEN-LAST:event_btnSearch4ActionPerformed
+    }
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         if (productService.deleteProduct(Long.parseLong(this.lblID.getText()))) {
             Messages.showMessageDialog("Se borro con éxito el producto", "Atención");
         } else {
             Messages.showMessageDialog("Error al borro, lo siento mucho", "Atención");
         }
-    }// GEN-LAST:event_btnDeleteActionPerformed
+    }
 
     private void fillTableP(List<Product> listProducts) {
         if (listIsNull(listProducts)) {
@@ -845,17 +866,17 @@ public class GUI extends javax.swing.JFrame {
 
     private void initializeTableP() {
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] {
-                        "ID", "Nombre", "Descripción", "Precio", "Categoria"
+                new Object[][]{},
+                new String[]{
+                    "ID", "Nombre", "Descripción", "Precio", "Categoria"
                 }));
     }
 
     private void initializeTableC() {
         tblCategory.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] {
-                        "ID", "Nombre"
+                new Object[][]{},
+                new String[]{
+                    "ID", "Nombre"
                 }));
     }
 
@@ -884,6 +905,7 @@ public class GUI extends javax.swing.JFrame {
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCreateCategory;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCreateProduct1;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDelete;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDeshacer;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEdit;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEditDelete;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnProduct;
@@ -944,5 +966,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearchC;
     private javax.swing.JTextField txtSearchP;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actualizar() {
+        fillTableP(productService.findAllProducts());
+    }
 
 }
