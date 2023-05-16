@@ -6,6 +6,7 @@ package co.edu.unicauca.openmarket.domain.service;
 
 import co.edu.unicauca.openmarket.access.ICategoryRepository;
 import co.unicauca.openmarket.commons.domain.Category;
+import framework.obsobs.Observado;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author restr
  */
-public class CategoryService {
+public class CategoryService extends Observado {
 
     private final ICategoryRepository access;
 
@@ -31,8 +32,10 @@ public class CategoryService {
             return false;
         }
 
-        return access.save(newCategory);
-
+        boolean result;
+        result = access.save(newCategory);
+        this.notificar();
+        return result;
     }
 
     public List<Category> findAllCategory() {
@@ -47,7 +50,10 @@ public class CategoryService {
     }
 
     public boolean deleteCategory(Long id) {
-        return access.delete(id);
+        boolean result;
+        result = access.delete(id);
+        this.notificar();
+        return result;
     }
 
     public boolean editCategory(Long categoryId, Category category) {

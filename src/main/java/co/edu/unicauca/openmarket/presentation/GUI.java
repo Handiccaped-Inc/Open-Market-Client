@@ -9,7 +9,7 @@ import co.unicauca.openmarket.commons.domain.Product;
 import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.domain.service.ProductService;
 import co.edu.unicauca.openmarket.infra.Messages;
-import co.edu.unicauca.openmarket.presentation.commands.OMAddProductCommand;
+import co.edu.unicauca.openmarket.presentation.commands.*;
 import co.edu.unicauca.openmarket.presentation.commands.OMInvoker;
 import framework.obsobs.Observador;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         btnDelete.setVisible(false);
         btnEdit.setVisible(false);
         btnDeshacer.setVisible(ominvoker.hasMoreCommands());
+        btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
     }
 
     /**
@@ -101,6 +102,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         btnSearch1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnSearchAll1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         lblTitle13 = new javax.swing.JLabel();
+        btnDeshacerC = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         jPanelEditDelete = new javax.swing.JPanel();
         lblTitle15 = new javax.swing.JLabel();
         lblTitle16 = new javax.swing.JLabel();
@@ -502,6 +504,25 @@ public class GUI extends javax.swing.JFrame implements Observador {
         lblTitle13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
         jPanelCategory.add(lblTitle13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 840, -1));
 
+        btnDeshacerC.setBackground(new java.awt.Color(251, 106, 0));
+        btnDeshacerC.setBorder(null);
+        btnDeshacerC.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeshacerC.setText("Deshacer");
+        btnDeshacerC.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnDeshacerC.setBorderPainted(false);
+        btnDeshacerC.setColor(new java.awt.Color(251, 106, 0));
+        btnDeshacerC.setColorClick(new java.awt.Color(251, 186, 0));
+        btnDeshacerC.setColorOver(new java.awt.Color(251, 156, 0));
+        btnDeshacerC.setFocusable(false);
+        btnDeshacerC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDeshacerC.setRadius(40);
+        btnDeshacerC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeshacerCActionPerformed(evt);
+            }
+        });
+        jPanelCategory.add(btnDeshacerC, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 90, 40));
+
         jTabbedPane2.addTab("tab2", jPanelCategory);
 
         jPanelEditDelete.setBackground(new java.awt.Color(255, 255, 255));
@@ -628,6 +649,12 @@ public class GUI extends javax.swing.JFrame implements Observador {
             this.btnDeshacer.setVisible(false);
     }//GEN-LAST:event_btnDeshacerActionPerformed
 
+    private void btnDeshacerCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerCActionPerformed
+        ominvoker.unexecute();
+        if (!ominvoker.hasMoreCommands())
+            this.btnDeshacerC.setVisible(false);
+    }//GEN-LAST:event_btnDeshacerCActionPerformed
+
     private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {
         jTabbedPane2.setSelectedIndex(0);
     }
@@ -648,11 +675,18 @@ public class GUI extends javax.swing.JFrame implements Observador {
 
         String name = txtNameC.getText().trim();
 
-        if (categoryService.saveCategory(name)) {
+        Category category = new Category();
+        category.setName(name);
+        OMAddCategoryCommand comm = new OMAddCategoryCommand(category, categoryService);
+        ominvoker.addCommand(comm);
+        ominvoker.execute();
+        if (comm.result()) {
             Messages.showMessageDialog("Se grabó con éxito la categoria", "Atención");
+            btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
         }
+        
     }
 
     private void btnCreateProduct1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -690,7 +724,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         }
     }
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {
         if (emptySpaces(txtSearchP.getText().trim())) {
             Messages.showMessageDialog("Debe ingresar el id/nombre del producto a buscar", "Atención");
             txtSearchP.requestFocus();
@@ -906,6 +940,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCreateProduct1;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDelete;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDeshacer;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDeshacerC;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEdit;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEditDelete;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnProduct;
@@ -970,6 +1005,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
     @Override
     public void actualizar() {
         fillTableP(productService.findAllProducts());
+        fillTableC(categoryService.findAllCategory());
     }
 
 }

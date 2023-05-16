@@ -26,6 +26,7 @@ public class Main {
         instance.setVisible(true);
         
         productService.addObservador(instance);
+        categoryService.addObservador(instance);
 
     }
 
