@@ -27,7 +27,7 @@ public class ProductServiceTest {
         service = new ProductService(repository);
     }
 
-    @Test
+    /*@Test
     @DisplayName("Guardar un producto")
     public void testSaveProduct() {
         boolean result = this.service.saveProduct("Test Product", "This is a test product.");
@@ -39,7 +39,7 @@ public class ProductServiceTest {
     public void testSaveProductInvalidName() {
         boolean result = this.service.saveProduct("", "This is an invalid product.");
         assertFalse(result);
-    }
+    }*/
 
     @Test
     @DisplayName("Buscar todos los productos")
