@@ -14,8 +14,6 @@ import co.edu.unicauca.openmarket.presentation.commands.OMInvoker;
 import framework.obsobs.Observador;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +40,8 @@ public class GUI extends javax.swing.JFrame implements Observador {
         btnEdit.setVisible(false);
         btnDeshacer.setVisible(ominvoker.hasMoreCommands());
         btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
+        btnHacerP.setVisible(ominvoker.hasMoreCommands());
+        btnHacerC.setVisible(ominvoker.hasMoreCommands());
     }
 
     /**
@@ -86,6 +86,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         txtCategoria = new javax.swing.JTextField();
         btnEditDelete = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnDeshacer = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        btnHacerP = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         jPanelCategory = new javax.swing.JPanel();
         lblTitle8 = new javax.swing.JLabel();
         txtIdC = new javax.swing.JTextField();
@@ -103,6 +104,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         btnSearchAll1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         lblTitle13 = new javax.swing.JLabel();
         btnDeshacerC = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        btnHacerC = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         jPanelEditDelete = new javax.swing.JPanel();
         lblTitle15 = new javax.swing.JLabel();
         lblTitle16 = new javax.swing.JLabel();
@@ -306,7 +308,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnCreateProduct1ActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 90, 40));
+        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 110, 90, 40));
 
         btnSearch.setBackground(new java.awt.Color(251, 106, 0));
         btnSearch.setBorder(null);
@@ -339,10 +341,10 @@ public class GUI extends javax.swing.JFrame implements Observador {
 
         lblTitle14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle14.setText("ID Categoria:");
-        jPanelProduct.add(lblTitle14, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, -1, -1));
+        jPanelProduct.add(lblTitle14, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 40, -1, -1));
 
         txtCategoria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
-        jPanelProduct.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 240, 30));
+        jPanelProduct.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 240, 30));
 
         btnEditDelete.setBackground(new java.awt.Color(251, 106, 0));
         btnEditDelete.setBorder(null);
@@ -361,7 +363,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnEditDeleteActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, 110, 40));
+        jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 110, 110, 40));
 
         btnDeshacer.setBackground(new java.awt.Color(251, 106, 0));
         btnDeshacer.setBorder(null);
@@ -380,7 +382,27 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnDeshacerActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnDeshacer, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 90, 40));
+        jPanelProduct.add(btnDeshacer, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 90, 40));
+
+        btnHacerP.setBackground(new java.awt.Color(251, 106, 0));
+        btnHacerP.setBorder(null);
+        btnHacerP.setForeground(new java.awt.Color(255, 255, 255));
+        btnHacerP.setText("Hacer");
+        btnHacerP.setToolTipText("");
+        btnHacerP.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnHacerP.setBorderPainted(false);
+        btnHacerP.setColor(new java.awt.Color(251, 106, 0));
+        btnHacerP.setColorClick(new java.awt.Color(251, 186, 0));
+        btnHacerP.setColorOver(new java.awt.Color(251, 156, 0));
+        btnHacerP.setFocusable(false);
+        btnHacerP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHacerP.setRadius(40);
+        btnHacerP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHacerPActionPerformed(evt);
+            }
+        });
+        jPanelProduct.add(btnHacerP, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 90, 40));
 
         jTabbedPane2.addTab("tab1", jPanelProduct);
 
@@ -521,7 +543,27 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnDeshacerCActionPerformed(evt);
             }
         });
-        jPanelCategory.add(btnDeshacerC, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 90, 40));
+        jPanelCategory.add(btnDeshacerC, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, 90, 40));
+
+        btnHacerC.setBackground(new java.awt.Color(251, 106, 0));
+        btnHacerC.setBorder(null);
+        btnHacerC.setForeground(new java.awt.Color(255, 255, 255));
+        btnHacerC.setText("Hacer");
+        btnHacerC.setToolTipText("");
+        btnHacerC.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnHacerC.setBorderPainted(false);
+        btnHacerC.setColor(new java.awt.Color(251, 106, 0));
+        btnHacerC.setColorClick(new java.awt.Color(251, 186, 0));
+        btnHacerC.setColorOver(new java.awt.Color(251, 156, 0));
+        btnHacerC.setFocusable(false);
+        btnHacerC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHacerC.setRadius(40);
+        btnHacerC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHacerCActionPerformed(evt);
+            }
+        });
+        jPanelCategory.add(btnHacerC, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 90, 40));
 
         jTabbedPane2.addTab("tab2", jPanelCategory);
 
@@ -645,15 +687,35 @@ public class GUI extends javax.swing.JFrame implements Observador {
 
     private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
         ominvoker.unexecute();
-        if (!ominvoker.hasMoreCommands())
-            this.btnDeshacer.setVisible(false);
+        if (!ominvoker.hasMoreCommands()) {
+            this.btnDeshacer.setVisible(ominvoker.hasMoreCommands());
+            this.btnHacerP.setVisible(!ominvoker.hasMoreCommands());
+        }
     }//GEN-LAST:event_btnDeshacerActionPerformed
 
     private void btnDeshacerCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerCActionPerformed
         ominvoker.unexecute();
-        if (!ominvoker.hasMoreCommands())
-            this.btnDeshacerC.setVisible(false);
+        if (!ominvoker.hasMoreCommands()) {
+            this.btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
+            this.btnHacerC.setVisible(!ominvoker.hasMoreCommands());
+        }
     }//GEN-LAST:event_btnDeshacerCActionPerformed
+
+    private void btnHacerPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerPActionPerformed
+        ominvoker.execute();
+        if (ominvoker.hasMoreCommands()) {
+            this.btnDeshacer.setVisible(ominvoker.hasMoreCommands());
+            this.btnHacerP.setVisible(false);
+        }
+    }//GEN-LAST:event_btnHacerPActionPerformed
+
+    private void btnHacerCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerCActionPerformed
+        ominvoker.execute();
+        if (ominvoker.hasMoreCommands()) {
+            this.btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
+            this.btnHacerC.setVisible(false);
+        }
+    }//GEN-LAST:event_btnHacerCActionPerformed
 
     private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {
         jTabbedPane2.setSelectedIndex(0);
@@ -686,7 +748,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
         }
-        
+
     }
 
     private void btnCreateProduct1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -708,7 +770,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         } else {
             Messages.showMessageDialog("Debe ingresar un dato numerico", "Atención");
         }
-        
+
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
@@ -943,6 +1005,8 @@ public class GUI extends javax.swing.JFrame implements Observador {
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDeshacerC;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEdit;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEditDelete;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnHacerC;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnHacerP;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnProduct;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearch;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearch1;
