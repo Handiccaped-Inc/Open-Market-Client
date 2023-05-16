@@ -9,11 +9,10 @@ import co.unicauca.openmarket.commons.domain.Product;
 import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.domain.service.ProductService;
 import co.edu.unicauca.openmarket.infra.Messages;
-import co.edu.unicauca.openmarket.presentation.ui.RenderTable;
-import java.awt.Button;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,6 +33,8 @@ public class GUI extends javax.swing.JFrame {
         this.categoryService = categoryService;
         initializeTableP();
         initializeTableC();
+        btnDelete.setVisible(false);
+        btnEdit.setVisible(false);
     }
 
     /**
@@ -75,6 +76,7 @@ public class GUI extends javax.swing.JFrame {
         rdoCategoria = new javax.swing.JRadioButton();
         lblTitle14 = new javax.swing.JLabel();
         txtCategoria = new javax.swing.JTextField();
+        btnEditDelete = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         jPanelCategory = new javax.swing.JPanel();
         lblTitle8 = new javax.swing.JLabel();
         txtIdC = new javax.swing.JTextField();
@@ -91,6 +93,22 @@ public class GUI extends javax.swing.JFrame {
         btnSearch1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnSearchAll1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         lblTitle13 = new javax.swing.JLabel();
+        jPanelEditDelete = new javax.swing.JPanel();
+        lblTitle15 = new javax.swing.JLabel();
+        lblTitle16 = new javax.swing.JLabel();
+        txtIdPEB = new javax.swing.JTextField();
+        btnEdit = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        lblID = new javax.swing.JLabel();
+        lblTitle18 = new javax.swing.JLabel();
+        txtDescriptionPE = new javax.swing.JTextField();
+        txtNamePE = new javax.swing.JTextField();
+        lblTitle19 = new javax.swing.JLabel();
+        txtCategoriaE = new javax.swing.JTextField();
+        btnSearch4 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        lblTitle20 = new javax.swing.JLabel();
+        btnDelete = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        lblTitle21 = new javax.swing.JLabel();
+        lblTitle22 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CRUD de Productos");
@@ -226,6 +244,12 @@ public class GUI extends javax.swing.JFrame {
         });
         jPanelProduct.add(btnSearchAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 180, 96, 40));
 
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
+
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -271,14 +295,14 @@ public class GUI extends javax.swing.JFrame {
         btnCreateProduct1.setColorClick(new java.awt.Color(251, 186, 0));
         btnCreateProduct1.setColorOver(new java.awt.Color(251, 156, 0));
         btnCreateProduct1.setFocusable(false);
-        btnCreateProduct1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnCreateProduct1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCreateProduct1.setRadius(40);
         btnCreateProduct1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateProduct1ActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 96, 40));
+        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 90, 40));
 
         btnSearch.setBackground(new java.awt.Color(251, 106, 0));
         btnSearch.setBorder(null);
@@ -315,6 +339,25 @@ public class GUI extends javax.swing.JFrame {
 
         txtCategoria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
         jPanelProduct.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 240, 30));
+
+        btnEditDelete.setBackground(new java.awt.Color(251, 106, 0));
+        btnEditDelete.setBorder(null);
+        btnEditDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditDelete.setText("Editar/Eliminar");
+        btnEditDelete.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnEditDelete.setBorderPainted(false);
+        btnEditDelete.setColor(new java.awt.Color(251, 106, 0));
+        btnEditDelete.setColorClick(new java.awt.Color(251, 186, 0));
+        btnEditDelete.setColorOver(new java.awt.Color(251, 156, 0));
+        btnEditDelete.setFocusable(false);
+        btnEditDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEditDelete.setRadius(40);
+        btnEditDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditDeleteActionPerformed(evt);
+            }
+        });
+        jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, 110, 40));
 
         jTabbedPane2.addTab("tab1", jPanelProduct);
 
@@ -440,6 +483,115 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("tab2", jPanelCategory);
 
+        jPanelEditDelete.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelEditDelete.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTitle15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle15.setText("ID:");
+        jPanelEditDelete.add(lblTitle15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        lblTitle16.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblTitle16.setText("Editar/Borrar Productos");
+        jPanelEditDelete.add(lblTitle16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, -1));
+
+        txtIdPEB.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelEditDelete.add(txtIdPEB, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 240, 30));
+
+        btnEdit.setBackground(new java.awt.Color(251, 106, 0));
+        btnEdit.setBorder(null);
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("Editar");
+        btnEdit.setActionCommand("Borrar");
+        btnEdit.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnEdit.setBorderPainted(false);
+        btnEdit.setColor(new java.awt.Color(251, 106, 0));
+        btnEdit.setColorClick(new java.awt.Color(251, 186, 0));
+        btnEdit.setColorOver(new java.awt.Color(251, 156, 0));
+        btnEdit.setFocusable(false);
+        btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnEdit.setRadius(40);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanelEditDelete.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 96, 40));
+
+        lblID.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jPanelEditDelete.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 240, 30));
+
+        lblTitle18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle18.setText("Descripcion:");
+        jPanelEditDelete.add(lblTitle18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
+
+        txtDescriptionPE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelEditDelete.add(txtDescriptionPE, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 240, 30));
+
+        txtNamePE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelEditDelete.add(txtNamePE, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 240, 30));
+
+        lblTitle19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle19.setText("Categoria:");
+        jPanelEditDelete.add(lblTitle19, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
+
+        txtCategoriaE.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelEditDelete.add(txtCategoriaE, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 240, 30));
+
+        btnSearch4.setBackground(new java.awt.Color(251, 106, 0));
+        btnSearch4.setBorder(null);
+        btnSearch4.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch4.setText("Buscar");
+        btnSearch4.setActionCommand("Borrar");
+        btnSearch4.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnSearch4.setBorderPainted(false);
+        btnSearch4.setColor(new java.awt.Color(251, 106, 0));
+        btnSearch4.setColorClick(new java.awt.Color(251, 186, 0));
+        btnSearch4.setColorOver(new java.awt.Color(251, 156, 0));
+        btnSearch4.setFocusable(false);
+        btnSearch4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnSearch4.setRadius(40);
+        btnSearch4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearch4ActionPerformed(evt);
+            }
+        });
+        jPanelEditDelete.add(btnSearch4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 96, 40));
+
+        lblTitle20.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblTitle20.setToolTipText("");
+        lblTitle20.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelEditDelete.add(lblTitle20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 95, 840, -1));
+
+        btnDelete.setBackground(new java.awt.Color(251, 106, 0));
+        btnDelete.setBorder(null);
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("Borrar");
+        btnDelete.setActionCommand("Borrar");
+        btnDelete.setBorderColor(new java.awt.Color(251, 106, 0));
+        btnDelete.setBorderPainted(false);
+        btnDelete.setColor(new java.awt.Color(251, 106, 0));
+        btnDelete.setColorClick(new java.awt.Color(251, 186, 0));
+        btnDelete.setColorOver(new java.awt.Color(251, 156, 0));
+        btnDelete.setFocusable(false);
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnDelete.setRadius(40);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanelEditDelete.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 96, 40));
+
+        lblTitle21.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle21.setText("Nombre:");
+        jPanelEditDelete.add(lblTitle21, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+
+        lblTitle22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle22.setText("ID:");
+        jPanelEditDelete.add(lblTitle22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        jTabbedPane2.addTab("tab3", jPanelEditDelete);
+
         jPanelCentral.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -30, 880, 530));
 
         jPanelPrincipal.add(jPanelCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 57, 860, 490));
@@ -555,6 +707,100 @@ public class GUI extends javax.swing.JFrame {
         fillTableC(categoryService.findAllCategory());
     }//GEN-LAST:event_btnSearchAll1ActionPerformed
 
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        int columna = tblProducts.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tblProducts.getRowHeight();
+        if (row < tblProducts.getRowCount() && row >= 0 && columna < tblProducts.getColumnCount() && columna >= 0) {
+            Object value = tblProducts.getValueAt(row, columna);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                JButton boton = (JButton) value;
+                JOptionPane.showMessageDialog(null, "Has pulsado un boton");
+            }
+        }
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void btnEditDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditDeleteActionPerformed
+        jTabbedPane2.setSelectedIndex(2);
+    }//GEN-LAST:event_btnEditDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (emptySpaces(txtNamePE.getText().trim())) {
+            Messages.showMessageDialog("Hay espacios vacios", "Atención");
+            return;
+        }
+
+        Product product = new Product();
+        Category categoria = new Category();
+
+        if (correctFormatId(this.txtCategoriaE.getText())) {
+            if (categoryService.findCategoryById(Long.parseLong(this.txtCategoriaE.getText())) != null) {
+                categoria = categoryService.findCategoryById(Long.parseLong(this.txtCategoriaE.getText()));
+            } else {
+                Messages.showMessageDialog("Error Id De Categoria No Encontrado", "Atención");
+            }
+        } else {
+            Messages.showMessageDialog("Debe ingresar un dato numerico", "Atención");
+        }
+
+        product.setName(txtNamePE.getText().trim());
+        product.setDescription(txtDescriptionPE.getText().trim());
+        product.setCategory(categoria);
+        
+        if (productService.editProduct((Long.parseLong(this.lblID.getText())),product)) {
+            Messages.showMessageDialog("Se edito con éxito el producto", "Atención");
+        } else {
+            Messages.showMessageDialog("Error al editar, lo siento mucho", "Atención");
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnSearch4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch4ActionPerformed
+        if (emptySpaces(txtIdPEB.getText().trim())) {
+            Messages.showMessageDialog("Debe ingresar el id/nombre del producto a buscar", "Atención");
+            txtSearchP.requestFocus();
+            return;
+        }
+
+        if (rdoId.isSelected()) {
+            if (!correctFormatId(this.txtIdPEB.getText())) {
+                Messages.showMessageDialog("Debe ingresar un dato numerico", "Atención");
+                return;
+            }
+        }
+
+        ArrayList<Product> lista = new ArrayList<>();
+
+        lista.add(productService.findProductById(Long.parseLong(this.txtIdPEB.getText())));
+
+        if (listIsNull(lista)) {
+            Messages.showMessageDialog("No se encontro el producto", "Atención");
+            btnDelete.setVisible(false);
+            btnEdit.setVisible(false);
+            lblID.setText("");
+            txtNamePE.setText("");
+            txtDescriptionPE.setText("");
+            txtCategoriaE.setText("");
+            return;
+        }
+        btnDelete.setVisible(true);
+        btnEdit.setVisible(true);
+        Messages.showMessageDialog("Producto encontrado", "Atención");
+
+        lblID.setText(lista.get(0).getProductId().toString());
+        txtNamePE.setText(lista.get(0).getName());
+        txtDescriptionPE.setText(lista.get(0).getDescription());
+        txtCategoriaE.setText(lista.get(0).getCategory().getName());
+
+    }//GEN-LAST:event_btnSearch4ActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (productService.deleteProduct(Long.parseLong(this.lblID.getText()))) {
+            Messages.showMessageDialog("Se borro con éxito el producto", "Atención");
+        } else {
+            Messages.showMessageDialog("Error al borro, lo siento mucho", "Atención");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void fillTableP(List<Product> listProducts) {
         if (listIsNull(listProducts)) {
             Messages.showMessageDialog("No hay datos para mostrar", "Atención");
@@ -565,7 +811,7 @@ public class GUI extends javax.swing.JFrame {
         initializeTableP();
         DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
-        Object rowData[] = new Object[7];//No columnas
+        Object rowData[] = new Object[5];//No columnas
         for (int i = 0; i < listProducts.size(); i++) {
             rowData[0] = listProducts.get(i).getProductId();
             rowData[1] = listProducts.get(i).getName();
@@ -573,11 +819,7 @@ public class GUI extends javax.swing.JFrame {
             rowData[3] = listProducts.get(i).getPrice();
             //rowData[4] = listProducts.get(i).getCategory().getName();
             rowData[4] = listProducts.get(i).getCategory();
-            rowData[5] = new JButton("Editar");
-            rowData[6] = new JButton("Eliminar");
 
-            this.tblProducts.setDefaultRenderer(Object.class, new RenderTable());
-            
             model.addRow(rowData);
         }
     }
@@ -605,7 +847,7 @@ public class GUI extends javax.swing.JFrame {
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "ID", "Nombre", "Descripción", "Precio", "Categoria", "Editar", "Eliminar"
+                    "ID", "Nombre", "Descripción", "Precio", "Categoria"
                 }
         ));
     }
@@ -642,27 +884,40 @@ public class GUI extends javax.swing.JFrame {
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCategory;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCreateCategory;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnCreateProduct1;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnDelete;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEdit;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnEditDelete;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnProduct;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearch;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearch1;
+    private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearch4;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearchAll;
     private co.edu.unicauca.openmarket.presentation.ui.MyButton btnSearchAll1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel jPanelCategory;
     private javax.swing.JPanel jPanelCentral;
+    private javax.swing.JPanel jPanelEditDelete;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JPanel jPanelProduct;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTitle10;
     private javax.swing.JLabel lblTitle11;
     private javax.swing.JLabel lblTitle12;
     private javax.swing.JLabel lblTitle13;
     private javax.swing.JLabel lblTitle14;
+    private javax.swing.JLabel lblTitle15;
+    private javax.swing.JLabel lblTitle16;
+    private javax.swing.JLabel lblTitle18;
+    private javax.swing.JLabel lblTitle19;
+    private javax.swing.JLabel lblTitle20;
+    private javax.swing.JLabel lblTitle21;
+    private javax.swing.JLabel lblTitle22;
     private javax.swing.JLabel lblTitle3;
     private javax.swing.JLabel lblTitle4;
     private javax.swing.JLabel lblTitle5;
@@ -678,12 +933,17 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTable tblCategory;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTextField txtCategoria;
+    private javax.swing.JTextField txtCategoriaE;
     private javax.swing.JTextField txtDescriptionP;
+    private javax.swing.JTextField txtDescriptionPE;
     private javax.swing.JTextField txtIdC;
     private javax.swing.JTextField txtIdP;
+    private javax.swing.JTextField txtIdPEB;
     private javax.swing.JTextField txtNameC;
     private javax.swing.JTextField txtNameP;
+    private javax.swing.JTextField txtNamePE;
     private javax.swing.JTextField txtSearchC;
     private javax.swing.JTextField txtSearchP;
     // End of variables declaration//GEN-END:variables
+
 }
