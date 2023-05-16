@@ -9,8 +9,11 @@ import co.unicauca.openmarket.commons.domain.Product;
 import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.domain.service.ProductService;
 import co.edu.unicauca.openmarket.infra.Messages;
+import co.edu.unicauca.openmarket.presentation.ui.RenderTable;
+import java.awt.Button;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -69,6 +72,9 @@ public class GUI extends javax.swing.JFrame {
         btnCreateProduct1 = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnSearch = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         lblTitle11 = new javax.swing.JLabel();
+        rdoCategoria = new javax.swing.JRadioButton();
+        lblTitle14 = new javax.swing.JLabel();
+        txtCategoria = new javax.swing.JTextField();
         jPanelCategory = new javax.swing.JPanel();
         lblTitle8 = new javax.swing.JLabel();
         txtIdC = new javax.swing.JTextField();
@@ -241,16 +247,16 @@ public class GUI extends javax.swing.JFrame {
 
         rdoId.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoId);
-        rdoId.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        rdoId.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         rdoId.setSelected(true);
         rdoId.setText("Id");
-        jPanelProduct.add(rdoId, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, -1, -1));
+        jPanelProduct.add(rdoId, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 195, -1, -1));
 
         rdoName.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoName);
-        rdoName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        rdoName.setText("Nombre del producto");
-        jPanelProduct.add(rdoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, -1, -1));
+        rdoName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rdoName.setText("Nombre");
+        jPanelProduct.add(rdoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 195, -1, -1));
 
         txtNameP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
         jPanelProduct.add(txtNameP, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 240, 30));
@@ -272,7 +278,7 @@ public class GUI extends javax.swing.JFrame {
                 btnCreateProduct1ActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 96, 40));
+        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 96, 40));
 
         btnSearch.setBackground(new java.awt.Color(251, 106, 0));
         btnSearch.setBorder(null);
@@ -296,6 +302,19 @@ public class GUI extends javax.swing.JFrame {
         lblTitle11.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblTitle11.setText("Crear Productos");
         jPanelProduct.add(lblTitle11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, -1));
+
+        rdoCategoria.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdoCategoria);
+        rdoCategoria.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rdoCategoria.setText("Categoria del producto");
+        jPanelProduct.add(rdoCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 195, -1, -1));
+
+        lblTitle14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle14.setText("ID Categoria:");
+        jPanelProduct.add(lblTitle14, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, -1, -1));
+
+        txtCategoria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelProduct.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 240, 30));
 
         jTabbedPane2.addTab("tab1", jPanelProduct);
 
@@ -466,8 +485,19 @@ public class GUI extends javax.swing.JFrame {
 
         String name = txtNameP.getText().trim();
         String description = txtDescriptionP.getText().trim();
+        Category categoria = new Category();
 
-        if (productService.saveProduct(name, description)) {
+        if (correctFormatId(this.txtCategoria.getText())) {
+            if (categoryService.findCategoryById(Long.parseLong(this.txtCategoria.getText())) != null) {
+                categoria = categoryService.findCategoryById(Long.parseLong(this.txtCategoria.getText()));
+            } else {
+                Messages.showMessageDialog("Error Id De Categoria No Encontrado", "Atención");
+            }
+        } else {
+            Messages.showMessageDialog("Debe ingresar un dato numerico", "Atención");
+        }
+
+        if (productService.saveProduct(name, description, categoria)) {
             Messages.showMessageDialog("Se grabó con éxito el producto", "Atención");
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
@@ -490,8 +520,11 @@ public class GUI extends javax.swing.JFrame {
             }
             lista.add(productService.findProductById(Long.parseLong(this.txtSearchP.getText())));
             fillTableP(lista);
-        } else {
+        } else if (rdoName.isSelected()) {
             lista = (ArrayList) productService.findByName(this.txtSearchP.getText());
+            fillTableP(lista);
+        } else {
+            lista = (ArrayList<Product>) productService.findProductByCategory(Long.parseLong(this.txtSearchP.getText()));
             fillTableP(lista);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -532,12 +565,19 @@ public class GUI extends javax.swing.JFrame {
         initializeTableP();
         DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
-        Object rowData[] = new Object[3];//No columnas
+        Object rowData[] = new Object[7];//No columnas
         for (int i = 0; i < listProducts.size(); i++) {
             rowData[0] = listProducts.get(i).getProductId();
             rowData[1] = listProducts.get(i).getName();
             rowData[2] = listProducts.get(i).getDescription();
+            rowData[3] = listProducts.get(i).getPrice();
+            //rowData[4] = listProducts.get(i).getCategory().getName();
+            rowData[4] = listProducts.get(i).getCategory();
+            rowData[5] = new JButton("Editar");
+            rowData[6] = new JButton("Eliminar");
 
+            this.tblProducts.setDefaultRenderer(Object.class, new RenderTable());
+            
             model.addRow(rowData);
         }
     }
@@ -565,7 +605,7 @@ public class GUI extends javax.swing.JFrame {
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "ID", "Nombre", "Descripción"
+                    "ID", "Nombre", "Descripción", "Precio", "Categoria", "Editar", "Eliminar"
                 }
         ));
     }
@@ -622,6 +662,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle11;
     private javax.swing.JLabel lblTitle12;
     private javax.swing.JLabel lblTitle13;
+    private javax.swing.JLabel lblTitle14;
     private javax.swing.JLabel lblTitle3;
     private javax.swing.JLabel lblTitle4;
     private javax.swing.JLabel lblTitle5;
@@ -629,12 +670,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle7;
     private javax.swing.JLabel lblTitle8;
     private javax.swing.JLabel lblTitle9;
+    private javax.swing.JRadioButton rdoCategoria;
     private javax.swing.JRadioButton rdoId;
     private javax.swing.JRadioButton rdoId1;
     private javax.swing.JRadioButton rdoName;
     private javax.swing.JRadioButton rdoName1;
     private javax.swing.JTable tblCategory;
     private javax.swing.JTable tblProducts;
+    private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtDescriptionP;
     private javax.swing.JTextField txtIdC;
     private javax.swing.JTextField txtIdP;
