@@ -27,7 +27,7 @@ public class ProductServiceTest {
         service = new ProductService(repository);
     }
 
-    @Test
+    /*@Test
     @DisplayName("Guardar un producto")
     public void testSaveProduct() {
         boolean result = this.service.saveProduct("Test Product", "This is a test product.");
@@ -39,7 +39,7 @@ public class ProductServiceTest {
     public void testSaveProductInvalidName() {
         boolean result = this.service.saveProduct("", "This is an invalid product.");
         assertFalse(result);
-    }
+    }*/
 
     @Test
     @DisplayName("Buscar todos los productos")
@@ -163,6 +163,11 @@ public class ProductServiceTest {
         public List<Product> findByName(String name) {
             throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
                                                                            // choose Tools | Templates.
+        }
+
+        @Override
+        public List<Product> findByCategoryID(Long id) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
     }
 }

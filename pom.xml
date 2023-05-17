@@ -47,5 +47,10 @@
             <version>2.8.6</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>reloj</groupId>
+            <artifactId>frameworkobsobs</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

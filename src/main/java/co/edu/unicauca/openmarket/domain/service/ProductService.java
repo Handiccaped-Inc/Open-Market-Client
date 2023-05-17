@@ -1,7 +1,9 @@
 package co.edu.unicauca.openmarket.domain.service;
 
 import co.edu.unicauca.openmarket.access.IProductRepository;
+import co.unicauca.openmarket.commons.domain.Category;
 import co.unicauca.openmarket.commons.domain.Product;
+import framework.obsobs.Observado;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author Libardo, Julio
  */
-public class ProductService {
+public class ProductService extends Observado{
 
     /**
      * Constructor privado que evita que otros objetos instancien
@@ -28,18 +30,22 @@ public class ProductService {
         this.access = access;
     }
 
-    public boolean saveProduct(String name, String description) {
+    public boolean saveProduct(String name, String description, Category category) {
 
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setDescription(description);
+        newProduct.setCategory(category);
 
         //Validate product
         if (newProduct.getName().isEmpty()) {
             return false;
         }
 
-        return access.save(newProduct);
+        boolean result;
+        result = access.save(newProduct);
+        this.notificar();
+        return result;
 
     }
 
@@ -61,7 +67,10 @@ public class ProductService {
     }
 
     public boolean deleteProduct(Long id) {
-        return access.delete(id);
+        boolean result;
+        result = access.delete(id);
+        this.notificar();
+        return result;
     }
 
     public boolean editProduct(Long productId, Product prod) {
@@ -72,5 +81,9 @@ public class ProductService {
         }
         return access.edit(productId, prod);
     }
-
+    
+    public List<Product> findProductByCategory(Long id) {
+        return access.findByCategoryID(id);
+    }
+    
 }
