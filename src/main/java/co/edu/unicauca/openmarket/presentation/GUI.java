@@ -33,15 +33,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         initComponents();
         this.productService = productService;
         this.categoryService = categoryService;
-        ominvoker = new OMInvoker();
-        initializeTableP();
-        initializeTableC();
-        btnDelete.setVisible(false);
-        btnEdit.setVisible(false);
-        btnDeshacer.setVisible(ominvoker.hasMoreCommands());
-        btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
-        btnHacerP.setVisible(ominvoker.hasMoreCommands());
-        btnHacerC.setVisible(ominvoker.hasMoreCommands());
+        init();
     }
 
     /**
@@ -693,6 +685,18 @@ public class GUI extends javax.swing.JFrame implements Observador {
         }
     }//GEN-LAST:event_btnDeshacerActionPerformed
 
+    private void init(){
+        ominvoker = new OMInvoker();
+        initializeTableP();
+        initializeTableC();
+        btnDelete.setVisible(false);
+        btnEdit.setVisible(false);
+        btnDeshacer.setVisible(ominvoker.hasMoreCommands());
+        btnDeshacerC.setVisible(false);
+        btnHacerP.setVisible(ominvoker.hasMoreCommands());
+        btnHacerC.setVisible(false);
+    }
+    
     private void btnDeshacerCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerCActionPerformed
         ominvoker.unexecute();
         if (!ominvoker.hasMoreCommands()) {
@@ -737,14 +741,8 @@ public class GUI extends javax.swing.JFrame implements Observador {
 
         String name = txtNameC.getText().trim();
 
-        Category category = new Category();
-        category.setName(name);
-        OMAddCategoryCommand comm = new OMAddCategoryCommand(category, categoryService);
-        ominvoker.addCommand(comm);
-        ominvoker.execute();
-        if (comm.result()) {
+        if (categoryService.saveCategory(name)) {
             Messages.showMessageDialog("Se grabó con éxito la categoria", "Atención");
-            btnDeshacerC.setVisible(ominvoker.hasMoreCommands());
         } else {
             Messages.showMessageDialog("Error al grabar, lo siento mucho", "Atención");
         }
