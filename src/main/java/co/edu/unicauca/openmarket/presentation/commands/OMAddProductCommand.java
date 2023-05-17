@@ -25,7 +25,7 @@ public class OMAddProductCommand extends OMCommand {
 
     @Override
     public void make() {
-        result = pS.saveProduct(pP.getName(), pP.getDescription(), pP.getCategory());
+        result = pS.saveProduct(pP.getName(), pP.getDescription(), pP.getCategory(), Double.valueOf(pP.getPrice()));
     }
 
     @Override

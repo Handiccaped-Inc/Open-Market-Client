@@ -30,12 +30,13 @@ public class ProductService extends Observado{
         this.access = access;
     }
 
-    public boolean saveProduct(String name, String description, Category category) {
+    public boolean saveProduct(String name, String description, Category category, double precio) {
 
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setDescription(description);
         newProduct.setCategory(category);
+        newProduct.setPrice(precio);
 
         //Validate product
         if (newProduct.getName().isEmpty()) {

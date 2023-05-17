@@ -81,6 +81,8 @@ public class GUI extends javax.swing.JFrame implements Observador {
         btnEditDelete = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnDeshacer = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
         btnHacerP = new co.edu.unicauca.openmarket.presentation.ui.MyButton();
+        lblTitle17 = new javax.swing.JLabel();
+        txtPrice = new javax.swing.JTextField();
         jPanelCategory = new javax.swing.JPanel();
         lblTitle8 = new javax.swing.JLabel();
         txtIdC = new javax.swing.JTextField();
@@ -302,7 +304,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnCreateProduct1ActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 110, 90, 40));
+        jPanelProduct.add(btnCreateProduct1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 120, 90, 40));
 
         btnSearch.setBackground(new java.awt.Color(251, 106, 0));
         btnSearch.setBorder(null);
@@ -357,7 +359,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnEditDeleteActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 110, 110, 40));
+        jPanelProduct.add(btnEditDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, 110, 40));
 
         btnDeshacer.setBackground(new java.awt.Color(251, 106, 0));
         btnDeshacer.setBorder(null);
@@ -376,7 +378,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnDeshacerActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnDeshacer, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 90, 40));
+        jPanelProduct.add(btnDeshacer, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 90, 40));
 
         btnHacerP.setBackground(new java.awt.Color(251, 106, 0));
         btnHacerP.setBorder(null);
@@ -396,7 +398,14 @@ public class GUI extends javax.swing.JFrame implements Observador {
                 btnHacerPActionPerformed(evt);
             }
         });
-        jPanelProduct.add(btnHacerP, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 90, 40));
+        jPanelProduct.add(btnHacerP, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, 90, 40));
+
+        lblTitle17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitle17.setText("Precio:");
+        jPanelProduct.add(lblTitle17, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, -1, -1));
+
+        txtPrice.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+        jPanelProduct.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, 240, 30));
 
         jTabbedPane2.addTab("tab1", jPanelProduct);
 
@@ -691,6 +700,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         } else {
             ominvoker.unexecute();
         }
+        ominvoker.unexecute();
         if (!ominvoker.hasMoreCommands()) {
             this.btnDeshacer.setVisible(ominvoker.hasMoreCommands());
             this.btnHacerP.setVisible(!ominvoker.hasMoreCommands());
@@ -779,6 +789,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
 
         String name = txtNameP.getText().trim();
         String description = txtDescriptionP.getText().trim();
+        double precio = Double.valueOf(txtPrice.getText().trim());
         Category categoria = new Category();
 
         if (correctFormatId(this.txtCategoria.getText())) {
@@ -795,6 +806,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
         product.setName(name);
         product.setDescription(description);
         product.setCategory(categoria);
+        product.setPrice(precio);
         OMAddProductCommand comm = new OMAddProductCommand(product, productService);
         ominvoker.addCommand(comm);
         ominvoker.execute();
@@ -1077,6 +1089,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
     private javax.swing.JLabel lblTitle14;
     private javax.swing.JLabel lblTitle15;
     private javax.swing.JLabel lblTitle16;
+    private javax.swing.JLabel lblTitle17;
     private javax.swing.JLabel lblTitle18;
     private javax.swing.JLabel lblTitle19;
     private javax.swing.JLabel lblTitle20;
@@ -1106,6 +1119,7 @@ public class GUI extends javax.swing.JFrame implements Observador {
     private javax.swing.JTextField txtNameC;
     private javax.swing.JTextField txtNameP;
     private javax.swing.JTextField txtNamePE;
+    private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtSearchC;
     private javax.swing.JTextField txtSearchP;
     // End of variables declaration//GEN-END:variables
